@@ -9,6 +9,9 @@ export default function AccountPage() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
+  // 👇 БЕРЁМ API URL из .env.production (или .env.local)
+  const API = process.env.NEXT_PUBLIC_API_URL || "";
+
   // -----------------------------
   // LOGIN HANDLER
   // -----------------------------
@@ -17,9 +20,9 @@ export default function AccountPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/login/email", {
+      const res = await fetch(`${API}/login/email`, {
         method: "POST",
-        credentials: "include", // важно: сохраняем cookie-сессию
+        credentials: "include", // важно для session cookies
         headers: {
           "Content-Type": "application/json",
         },
@@ -27,7 +30,6 @@ export default function AccountPage() {
       });
 
       if (!res.ok) {
-        // читаем тело с ошибкой, если есть
         let errText = "Неверный email или пароль";
         try {
           const errJson = await res.json();
@@ -40,7 +42,6 @@ export default function AccountPage() {
       const data = await res.json();
       console.log("Login success:", data);
 
-      // перенаправляем на главную (сессия сохранена через cookie)
       window.location.href = "/profile";
     } catch (err) {
       console.error(err);
@@ -52,8 +53,8 @@ export default function AccountPage() {
   // GOOGLE LOGIN HANDLER
   // -----------------------------
   const handleGoogleLogin = () => {
-    // OAuth: перейдёт на бек, бек редиректит в Google и обратно
-    window.location.href = "http://localhost:5000/login/google";
+    // 🔥 теперь Google login тоже через бэкенд Render
+    window.location.href = `${API}/login/google`;
   };
 
   return (
@@ -136,6 +137,6 @@ export default function AccountPage() {
           </nav>
         </div>
       </div>
-    </main>
-  );
+    </main>
+  );
 }

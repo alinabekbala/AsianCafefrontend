@@ -20,7 +20,7 @@ export default function DishGrid() {
   const refs = useRef<Record<string, HTMLElement | null>>({});
 
   useEffect(() => {
-    fetch("http://172.20.10.11:5000/api/menu")
+    fetch("https://asian-cafe-backend.onrender.com/api/menu")
       .then((res) => {
         if (!res.ok) throw new Error(`Ошибка сервера: ${res.status}`);
         return res.json();

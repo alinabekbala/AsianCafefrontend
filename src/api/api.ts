@@ -1,5 +1,5 @@
 // frontend/src/api/api.ts 
-export const API_URL = "http://localhost:5000";
+export const API_URL = "https://asian-cafe-backend.onrender.com";
 
 // Теперь occupied возвращается как { [tableId]: number }
 export async function getOccupied(branch: string, date: string) {

@@ -9,11 +9,14 @@ export default function ProfilePage() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // 🔥 API URL из .env.production / Vercel env
+  const API = process.env.NEXT_PUBLIC_API_URL || "";
+
   useEffect(() => {
     let mounted = true;
 
     axios
-      .get("http://localhost:5000/auth/user", { withCredentials: true })
+      .get(`${API}/auth/user`, { withCredentials: true })
       .then((res) => {
         if (!res.data.authenticated) {
           window.location.href = "/account";
@@ -29,14 +32,14 @@ export default function ProfilePage() {
           try {
             if (pendingLocal) {
               await axios.post(
-                "http://localhost:5000/pending/claim",
+                `${API}/pending/claim`,
                 { pending: JSON.parse(pendingLocal) },
                 { withCredentials: true }
               );
               localStorage.removeItem("pendingBooking");
             } else {
               await axios.post(
-                "http://localhost:5000/pending/claim",
+                `${API}/pending/claim`,
                 {},
                 { withCredentials: true }
               );
@@ -46,7 +49,7 @@ export default function ProfilePage() {
 
         tryClaim().then(() => {
           axios
-            .get("http://localhost:5000/user/bookings", { withCredentials: true })
+            .get(`${API}/user/bookings`, { withCredentials: true })
             .then((r) => mounted && setBookings(r.data.bookings || []))
             .finally(() => mounted && setLoading(false));
         });
@@ -62,7 +65,7 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     await axios.post(
-      "http://localhost:5000/logout",
+      `${API}/logout`,
       {},
       { withCredentials: true }
     );
@@ -85,23 +88,23 @@ export default function ProfilePage() {
     return diff;
   };
 
-  // --- ОТМЕНА БРОНИ (ИСПРАВЛЕНО) ---
   const cancelBooking = async (id: number) => {
-    console.log("Attempting to cancel reservation with ID:", id); 
+    console.log("Attempting to cancel reservation with ID:", id);
 
-    // 🔥 ИСПРАВЛЕНИЕ: Проверяем, что ID валиден, прежде чем отправлять запрос.
-    if (typeof id !== 'number' || id <= 0 || !id) {
-        console.error("Cancellation failed: Invalid ID received:", id);
-        alert('Невозможно отменить: невалидный ID бронирования.');
-        return; 
+    if (typeof id !== "number" || id <= 0 || !id) {
+      console.error("Cancellation failed: Invalid ID:", id);
+      alert("Невозможно отменить: неверный ID.");
+      return;
     }
 
     try {
       await axios.post(
-        "http://localhost:5000/reservation/cancel",
-        // 🔥 ИСПРАВЛЕНИЕ: Отправляем ID как число, а не String(id), чтобы избежать "undefined"
-        { id: id }, 
-        { headers: { "Content-Type": "application/json" }, withCredentials: true }
+        `${API}/reservation/cancel`,
+        { id: id },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
       );
 
       setBookings((prev) =>
@@ -109,7 +112,7 @@ export default function ProfilePage() {
       );
     } catch (err) {
       console.error(err);
-      alert('Ошибка отмены бронирования. Пожалуйста, проверьте консоль.');
+      alert("Ошибка отмены бронирования.");
     }
   };
 
@@ -256,6 +259,6 @@ export default function ProfilePage() {
       >
         Выйти из аккаунта
       </button>
-    </main>
-  );
+    </main>
+  );
 }
