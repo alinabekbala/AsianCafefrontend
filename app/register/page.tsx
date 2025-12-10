@@ -29,7 +29,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await fetch("https://asian-cafe-backend.onrender.com/register", {
+      const res = await fetch("https://asiancafebackend.onrender.com//register", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -62,7 +62,7 @@ export default function RegisterPage() {
     setSuccess("");
 
     try {
-      const res = await fetch("https://asian-cafe-backend.onrender.com/verify-email", {
+      const res = await fetch("https://asiancafebackend.onrender.com//verify-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://asian-cafe-backend.onrender.com/login/google";
+    window.location.href = "https://asiancafebackend.onrender.com//login/google";
   };
 
   return (

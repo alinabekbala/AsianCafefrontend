@@ -39,7 +39,7 @@ export default function VerifyClient() {
     }
 
     try {
-      const res = await fetch("https://asian-cafe-backend.onrender.com/verify-email", {
+      const res = await fetch("https://asiancafebackend.onrender.com/verify-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, code }),
@@ -65,7 +65,7 @@ export default function VerifyClient() {
     setSuccess("");
 
     try {
-      const res = await fetch("https://asian-cafe-backend.onrender.com/resend-code", {
+      const res = await fetch("https://asiancafebackend.onrender.com//resend-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
