@@ -56,7 +56,7 @@ export default function MenuSelectorModal({
     if (!isOpen) return;
     setLoading(true);
 
-    fetch("http://localhost:5000/api/menu")
+    fetch("https://asiancafebackend.onrender.com/api/menu")
       .then(res => res.json())
       .then((data: BackendCategory[]) => {
         if (Array.isArray(data)) {
@@ -68,7 +68,7 @@ export default function MenuSelectorModal({
               price: item.price.toString(),
               image: item.img.startsWith("http")
                 ? item.img
-                : `http://localhost:5000/${item.img}`
+                : `https://asiancafebackend.onrender.com/${item.img}`
             }))
           }));
 

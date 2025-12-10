@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/auth/user", { withCredentials: true })
+      .get("https://asiancafebackend.onrender.com/auth/user", { withCredentials: true })
       .then((res) => setAuth(res.data.authenticated))
       .catch(() => setAuth(false));
   }, []);
