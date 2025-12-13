@@ -5,11 +5,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "asiancafebackend.onrender.com",
-        port: "",
         pathname: "/static/images/**",
       },
     ],
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

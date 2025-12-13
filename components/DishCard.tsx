@@ -19,7 +19,6 @@ export default function DishCard({ title, description, price, image }: DishCardP
           fill
           className="object-cover"
           sizes="350px"
-          unoptimized // отключаем оптимизацию Next.js для локального Flask
         />
         {/* Цена */}
         <div className="absolute right-[19px] top-[18px] w-[114px] h-[41px] bg-white flex items-center justify-center">
